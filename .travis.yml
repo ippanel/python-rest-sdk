@@ -1,0 +1,25 @@
+language: python
+python:
+  - 'pypy2.7'
+  - 'pypy3.5'
+  - '2.7'
+  - '3.4'
+  - '3.6'
+  - 'nightly'
+install:
+  - pip install mock==2.0
+  - pip install requests
+  - pip install codecov
+  - pip install pytest pytest-cov
+  - pip install pycodestyle
+  - pip install .
+script:
+  - coverage run --source=ippanel -m unittest discover -s tests/
+  - coverage report --fail-under=30
+  # - pycodestyle --statistics --ignore=E121,E123,E126,E133,E226,E241,E242,E704,W503,W504,W505,E501 ./ippanel/
+  # - pycodestyle --statistics --ignore=E121,E123,E126,E133,E226,E241,E242,E704,W503,W504,W505,E501 ./tests/
+matrix:
+  allow_failures:
+  - python: 'nightly'
+  - python: 'pypy2.7'
+  - python: 'pypy3.5'
