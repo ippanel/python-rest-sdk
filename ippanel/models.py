@@ -1,16 +1,12 @@
-try:
-    import simplejson as json
-except ImportError:
-    import json
-
-
 class Base(object):
     """
     base model 
     """
 
     def from_json(self, data={}):
-        for name, value in list(data.items()):
+        for name, value in data.items():
+            if name == 'from':
+                name = 'sender'
             if hasattr(self, name) and not callable(getattr(self, name)):
                 setattr(self, name, value)
 
@@ -44,6 +40,7 @@ class Response(Base):
         self.code = None
         self.data = None
         self.meta = None
+        self.error_message = None
 
         super(Response, self).from_json(data)
 
@@ -57,20 +54,20 @@ class Message(Base):
     """
 
     def __init__(self, data):
-        self.bulk_id = None
+        self.message_id = None
         self.number = None
         self.message = None
-        self.status = None
+        self.state = None
         self.type = None
-        self.confirm_state = None
-        self.created_at = None
-        self.sentAt = None
-        self.recipients_count = None
-        self.valid_recipients_count = None
-        self.page = None
+        self.valid = None
+        self.time = None
+        self.time_send = None
+        self.recipient_count = None
+        self.exit_count = None
+        self.part = None
         self.cost = None
-        self.payback_cost = None
-        self.description = None
+        self.return_cost = None
+        self.summary = None
 
         super(Message, self).from_json(data)
 
@@ -93,10 +90,10 @@ class InboxMessage(Base):
     """
 
     def __init__(self, data):
-        self.number = None
+        self.to = None
         self.message = None
         self.sender = None
-        self.time = None
+        self.created_at = None
         self.type = None
 
         super(InboxMessage, self).from_json(data)

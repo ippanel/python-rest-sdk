@@ -3,8 +3,8 @@ from ippanel import Client, Error, HTTPError, ResponseCode
 client = Client("YOUR-API-KEY")
 
 try:
-    bulk_id = client.send("+9810001", ["+98912xxxxxxx"], "Hello from python client!")
-    print(bulk_id)
+    message_id = client.send("+9810001", ["+98912xxxxxxx"], "Hello from python client!")
+    print(message_id)
 except Error as e:
     print("Error handled => code: %s, message: %s" % (e.code, e.message))
 

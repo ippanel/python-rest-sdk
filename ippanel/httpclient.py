@@ -1,20 +1,11 @@
 import sys
 
 import requests
-from requests import RequestException, status_codes
-
+from requests import RequestException
 from ippanel.errors import HTTPError, parse_errors
 from ippanel.models import Response
-
-try:
-    from urllib.parse import urljoin
-except ImportError:
-    from urlparse import urljoin
-
-try:
-    import simplejson as json
-except ImportError:
-    import json
+from urllib.parse import urljoin
+import json
 
 
 class HTTPClient:
@@ -23,7 +14,7 @@ class HTTPClient:
         self.timeout = timeout
         self.base_url = base_url
         self.client_version = client_version
-        self.__supported_status_codes = [200, 201, 204, 405, 400, 401, 422]
+        self.__supported_status_codes = [200, 201, 204, 400, 401, 403, 404, 405, 422, 500]
 
     def req(self, method, url, data=None, params=None):
         """
@@ -33,13 +24,11 @@ class HTTPClient:
             params = {}
 
         target_url = urljoin(self.base_url, url)
-        auth_header = "AccessKey %s" % (self.apikey)
-        user_agent = "IPPanel/ApiClient/%s Python/%s" % (
-            self.client_version, sys.hexversion)
+        user_agent = f"IPPanel/ApiClient/{self.client_version} Python/{sys.hexversion}"
         headers = {
             "Content-Type": "application/json",
             "Accept": "application/json",
-            "Authorization": auth_header,
+            "apikey": self.apikey,
             "User-Agent": user_agent,
         }
         default_headers = requests.utils.default_headers()

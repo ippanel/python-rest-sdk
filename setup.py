@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="ippanel",
-    version="1.1.0",
+    version="2.0.0",
     author="Asghar Dadashzadeh",
     author_email="dev@ippanel.com",
     description="ippanel sdk",
@@ -13,7 +13,7 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     url="https://github.com/ippanel/python-rest-sdk",
     packages=setuptools.find_packages(),
-    install_requires=['requests>=2.4.1'],
+    install_requires=['requests>=2.28.1'],
     license='BSD-2-Clause',
     classifiers=[
         'Programming Language :: Python',

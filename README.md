@@ -47,10 +47,11 @@ credit = sms.get_credit()
 For sending sms, obviously you need `originator` number, `recipients` and `message`.
 
 ```python
-bulk_id = sms.send(
+message_id = sms.send(
     "+9810001",          # originator
     ["98912xxxxxxx"],    # recipients
     "ippanel is awesome" # message
+    "description"        # is logged
 )
 
 ```
@@ -60,21 +61,21 @@ If send is successful, a unique tracking code returned and you can track your me
 ### Get message summery
 
 ```python
-bulk_id = "message-tracking-code"
+message_id = "message-tracking-code"
 
-message = sms.get_message(bulk_id)
+message = sms.get_message(message_id)
 
-print(message.status)  # get message status
-print(message.cost)    # get message cost
-print(message.payback) # get message payback
+print(message.state)       # get message status
+print(message.cost)        # get message cost
+print(message.return_cost) # get message payback
 ```
 
 ### Get message delivery statuses
 
 ```python
-bulk_id = "message-tracking-code"
+message_id = "message-tracking-code"
 
-statuses, pagination_info = sms.fetch_statuses(bulk_id, 0, 10)
+statuses, pagination_info = sms.fetch_statuses(message_id, 0, 10)
 
 # you can loop in messages statuses list
 for status in statuses {
@@ -92,18 +93,22 @@ fetch inbox messages
 messages, pagination_info = sms.fetch_inbox(0, 10)
 
 for message in messages {
-    print("Received message %s from number %s in line %s" % (message.message, message.sender, message.number))
+    print("Received message %s from number %s in line %s" % (message.message, message.sender, message.to))
 }
 ```
 
 ### Pattern create
 
-For sending messages with predefined pattern(e.g. verification codes, ...), you hav to create a pattern. a pattern at least have a parameter. parameters defined with `%param_name%`.
+For sending messages with predefined pattern(e.g. verification codes, ...), you hav to create a pattern. a pattern at least have a parameter.
 
 ```python
-pattern = sms.create_pattern(r"%name% is awesome", False)
+pattern_variables = {
+    "name": "string",
+    "code": "integer",
+}
+code = sms.create_pattern(r"%name% is awesome, your code is %code%", "description", pattern_variables, "%", False)
 
-print(pattern.code)
+print(code)
 ```
 
 ### Send with pattern
@@ -113,7 +118,7 @@ pattern_values = {
     "name": "IPPANEL",
 }
 
-bulk_id = sms.send_pattern(
+message_id = sms.send_pattern(
     "t2cfmnyo0c",    # pattern code
     "+9810001",      # originator
     "98912xxxxxxx",  # recipient
@@ -127,13 +132,13 @@ bulk_id = sms.send_pattern(
 from ippanel import HTTPError, Error, ResponseCode
 
 try:
-    bulk_id = sms.send("9810001", ["98912xxxxx"], "ippanel is awesome")
+    message_id = sms.send("9810001", ["98912xxxxx"], "ippanel is awesome")
 except Error as e: # ippanel sms error
-    print("Error handled => code: %s, message: %s" % (e.code, e.message))
+    print(f"Error handled => code: {e.code}, message: {e.message}")
     if e.code == ResponseCode.ErrUnprocessableEntity.value:
         for field in e.message:
-            print("Field: %s , Errors: %s" % (field, e.message[field]))
+            print(f"Field: {field} , Errors: {e.message[field]}")
 except HTTPError as e: # http error like network error, not found, ...
-    print("Error handled => code: %s" % (e))
+    print(f"Error handled => code: {e}")
 
 ```
