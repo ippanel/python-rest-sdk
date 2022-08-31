@@ -2,7 +2,7 @@ from ippanel.httpclient import HTTPClient
 from ippanel.models import Message, Recipient, InboxMessage
 
 # base url for api
-BASE_URL = "https://api2.ippanel.com/api/v1"
+BASE_URL = "https://api2.ippanel.com/api/v1/"
 # default timeout for http client
 DEFAULT_TIMEOUT = 30
 # client version
@@ -28,7 +28,7 @@ class Client:
         :return: :class:`float <float>` object
         :rtype: float
         """
-        res = self.client.get("/sms/accounting/credit/show")
+        res = self.client.get("sms/accounting/credit/show")
 
         try:
             return res.data["credit"]
@@ -45,7 +45,7 @@ class Client:
         :return: :class:`int <int>` object
         :rtype: int
         """
-        res = self.client.post("/sms/send/panel/single", {
+        res = self.client.post("sms/send/panel/single", {
             "sender": sender,
             "recipient": recipients,
             "message": message,
@@ -67,7 +67,7 @@ class Client:
         :return: :class:`Message <Message>` object
         :rtype: models.Message
         """
-        res = self.client.get("/sms/message/all", {
+        res = self.client.get("sms/message/all", {
             'message_id': message_id,
         })
 
@@ -85,7 +85,7 @@ class Client:
         :return: :class:`[]Recipient <[]Recipient>` object
         :rtype: []models.Recipient
         """
-        res = self.client.get(f"/sms/message/show-recipient/message-id/{message_id}", {
+        res = self.client.get(f"sms/message/show-recipient/message-id/{message_id}", {
             "page": page,
             "per_page": limit,
         })
@@ -142,7 +142,7 @@ class Client:
         for variable_name, type in variables.items():
             params['variable'].append({'name': variable_name, 'type': type})
 
-        res = self.client.post("/sms/pattern/normal/store", params)
+        res = self.client.post("sms/pattern/normal/store", params)
 
         try:
             return res.data[0]["code"]
@@ -160,7 +160,7 @@ class Client:
         :rtype: int
         """
 
-        res = self.client.post("/sms/pattern/normal/send", {
+        res = self.client.post("sms/pattern/normal/send", {
             "code": pattern_code,
             "sender": sender,
             "recipient": recipient,
