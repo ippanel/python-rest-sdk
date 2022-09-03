@@ -1,7 +1,5 @@
 # IPPanel SMS api SDK
 
-This repository contains open source Python client for `ippanel` api. Documentation can be found at: <http://docs.ippanel.com>.
-
 [![Build Status](https://travis-ci.org/ippanel/python-rest-sdk.svg?branch=master)](https://travis-ci.org/ippanel/python-rest-sdk)
 
 ## Installation
@@ -9,7 +7,7 @@ This repository contains open source Python client for `ippanel` api. Documentat
 you can install this package with either pip:
 
 ```bash
-pip install ippanel
+python -m pip install ippanel
 ```
 
 or running bellow command after downloading source:
