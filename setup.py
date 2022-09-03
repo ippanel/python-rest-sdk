@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="ippanel",
-    version="2.0.0",
+    version="2.0.3",
     author="Asghar Dadashzadeh",
     author_email="dev@ippanel.com",
     description="ippanel sdk",
