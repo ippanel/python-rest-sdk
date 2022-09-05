@@ -69,7 +69,12 @@ print(message.return_cost) # get message payback
 ```
 
 ### Get message delivery statuses
-
+Status Code Explanation:
+0 for Send
+1 for pending
+2 for delivered
+3 for failed
+4 for blaklisted
 ```python
 message_id = "message-tracking-code"
 
@@ -79,7 +84,6 @@ statuses, pagination_info = sms.fetch_statuses(message_id, 0, 10)
 for status in statuses {
     print("Recipient: %s, Status: %s" % (status.recipient, status.status))
 }
-
 print("Total: ", pagination_info.total)
 ```
 
@@ -132,10 +136,15 @@ from ippanel import HTTPError, Error, ResponseCode
 try:
     message_id = sms.send("9810001", ["98912xxxxx"], "ippanel is awesome")
 except Error as e: # ippanel sms error
-    print(f"Error handled => code: {e.code}, message: {e.message}")
     if e.code == ResponseCode.ErrUnprocessableEntity.value:
         for field in e.message:
             print(f"Field: {field} , Errors: {e.message[field]}")
+    elif e.code == ResponseCode.ErrForbidden.value:
+        print(f"Ippanel Error Forbidden => code: {e.code}, message: {e.message}")
+    elif e.code == ResponseCode.ErrInternalServer.value:
+        print(f"Ippanel Internal Server Error => code: {e.code}, message: {e.message}")
+    elif e.code == ResponseCode.ErrNotFound.value:
+        print(f"Ippanel Error Not Found => code: {e.code}, message: {e.message}")
 except HTTPError as e: # http error like network error, not found, ...
     print(f"Error handled => code: {e}")
 
