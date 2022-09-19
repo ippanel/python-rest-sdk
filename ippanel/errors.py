@@ -26,6 +26,6 @@ class HTTPError(Exception):
     pass
 
 def parse_errors(response: Response):
-    if response.error_message is not None:
+    if response.code != 200 or response.error_message != '':
         return Error(response.code, response.error_message)
     return

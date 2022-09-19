@@ -6,7 +6,7 @@ BASE_URL = "https://api2.ippanel.com/api/v1/"
 # default timeout for http client
 DEFAULT_TIMEOUT = 30
 # client version
-CLIENT_VERSION = "2.0.0"
+CLIENT_VERSION = "2.0.4"
 
 
 class Client:
