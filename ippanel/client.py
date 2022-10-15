@@ -45,7 +45,7 @@ class Client:
         :return: :class:`int <int>` object
         :rtype: int
         """
-        res = self.client.post("sms/send/panel/single", {
+        res = self.client.post("sms/send/webservice/single", {
             "sender": sender,
             "recipient": recipients,
             "message": message,
