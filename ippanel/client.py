@@ -133,7 +133,7 @@ class Client:
         :rtype: int
         """
         params = {
-            "pattern": pattern,
+            "message": pattern,
             "description": description,
             "delimiter": delimiter,
             "variable": [],
