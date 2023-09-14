@@ -139,8 +139,8 @@ class Client:
             "variable": [],
             "is_shared": is_shared,
         }
-        for variable_name, type in variables.items():
-            params['variable'].append({'name': variable_name, 'type': type})
+        for variable_name, type_len in variables.items():
+            params['variable'].append({'name': variable_name, 'type': type_len[0], 'len': type_len[1]})
 
         res = self.client.post("sms/pattern/normal/store", params)
 
