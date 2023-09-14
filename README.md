@@ -102,7 +102,7 @@ For sending messages with predefined pattern(e.g. verification codes, ...), you 
 ```python
 pattern_variables = {
     "name": "string",
-    "code": "integer",
+    "code": ["integer", 10], # first element is type of variable and second one is length of this.
 }
 code = sms.create_pattern(r"%name% is awesome, your code is %code%", "description", pattern_variables, "%", False)
 
